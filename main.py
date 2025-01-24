@@ -3,7 +3,7 @@ from tkinter import filedialog
 import os
 from PyPDF2 import PdfReader, PdfWriter
 
-def validate_inputs(initial_page_entry, final_page_entry, export_button, total_pages):
+def validate_inputs(initial_page_entry, final_page_entry, export_button, total_pages, output_title_entry, file_name):
     try:
         initial_page = int(initial_page_entry.get())
         final_page = int(final_page_entry.get())
@@ -12,6 +12,13 @@ def validate_inputs(initial_page_entry, final_page_entry, export_button, total_p
             1 <= final_page <= total_pages and
             final_page >= initial_page):
             export_button.configure(state="normal")
+            # Update output file title based on input pages
+            if initial_page == final_page:
+                output_title_entry.delete(0, ctk.END)
+                output_title_entry.insert(0, f"{file_name}_sliced_p{initial_page}.pdf")
+            else:
+                output_title_entry.delete(0, ctk.END)
+                output_title_entry.insert(0, f"{file_name}_sliced_p{initial_page}_to_p{final_page}.pdf")
         else:
             export_button.configure(state="disabled")
     except ValueError:
@@ -38,9 +45,12 @@ def select_pdf_file(output_title_entry, initial_page_entry, final_page_entry, ex
         pages_label.configure(text=f"Total Pages: {total_pages}")
         file_name_label.configure(text=f"File: {file_name}")
 
-        # Bind validation to input events
-        initial_page_entry.bind("<KeyRelease>", lambda e: validate_inputs(initial_page_entry, final_page_entry, export_button, total_pages))
-        final_page_entry.bind("<KeyRelease>", lambda e: validate_inputs(initial_page_entry, final_page_entry, export_button, total_pages))
+        # Bind validation to input events with additional parameters
+        def validate_wrapper(e):
+            validate_inputs(initial_page_entry, final_page_entry, export_button, total_pages, output_title_entry, file_name)
+
+        initial_page_entry.bind("<KeyRelease>", validate_wrapper)
+        final_page_entry.bind("<KeyRelease>", validate_wrapper)
     else:
         print("No file selected.")
         file_name_label.configure(text="File: No PDF loaded")
@@ -73,12 +83,12 @@ def create_gui():
 
     # Create a frame to centralize the content with inner padding
     frame = ctk.CTkFrame(master=root, corner_radius=10)
-    frame.grid(row=0, column=0, sticky="")
+    frame.grid(row=0, column=0, sticky="nsew")
     frame.grid_rowconfigure((0, 1, 2, 3, 4, 5, 6, 7, 8, 9), weight=1)
     frame.grid_columnconfigure(0, weight=1)
 
     # Add widgets with inner padding inside the frame
-    output_title_entry = ctk.CTkEntry(frame)
+    output_title_entry = ctk.CTkEntry(frame, justify="center")
 
     select_button = ctk.CTkButton(
         master=frame, 
@@ -105,7 +115,8 @@ def create_gui():
 
     output_title_label = ctk.CTkLabel(frame, text="Output File Title:")
     output_title_label.grid(row=7, column=0, pady=5, padx=20)
-    output_title_entry.grid(row=8, column=0, pady=5, padx=20)
+    output_title_entry.grid(row=8, column=0, pady=5, padx=20, sticky="ew")
+    frame.grid_columnconfigure(0, weight=1)
 
     export_button = ctk.CTkButton(
         master=frame, 

@@ -1,17 +1,16 @@
 # PDF Slicer
 
-PDF Slicer is a Python project designed to help you split and manage PDF files with ease.
+PDF Slicer is a Python project designed to help you split and manage your PDF files with ease.
 
 ## Features
 
-- Split PDF files into individual pages
 - Extract specific pages from a PDF
-- Merge multiple PDF files into one
 
 ## Requirements
 
 - Python 3.x
-- PyPDF2
+- PyPDF2 library
+- customtkinter library
 
 ## Installation
 
@@ -30,27 +29,24 @@ PDF Slicer is a Python project designed to help you split and manage PDF files w
 
 ## Usage
 
-1. To split a PDF into individual pages:
-    ```sh
-    python pdf_slicer.py split input.pdf
-    ```
-2. To extract specific pages from a PDF:
-    ```sh
-    python pdf_slicer.py extract input.pdf 1 2 3
-    ```
-3. To merge multiple PDF files into one:
-    ```sh
-    python pdf_slicer.py merge output.pdf input1.pdf input2.pdf
-    ```
+1. Open the GUI
+2. Select the PDF file you want to slice
+3. Select the initial and final page
+4. Rename if necessary
+5. Click "Export File"
 
 ## Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request.
+Contributions are welcome! Please fork the repository and submit a pull request.
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+This project is licensed under the MIT License.
 
 ## Contact
 
-For any inquiries, please contact [your email].
+For any questions or suggestions, please open an issue or contact trehen30@gmail.com.
+
+## Acknowledgments
+
+This script was created with the assistance of ChatGPT, so it is not definitive and should not be considered as ideal.
