@@ -16,7 +16,7 @@ PDF Slicer is a Python project designed to help you split and manage your PDF fi
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/PDF_Slicer.git
+    https://github.com/henrique-trevisan/PDF_Slicer
     ```
 2. Navigate to the project directory:
     ```sh
