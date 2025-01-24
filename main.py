@@ -17,7 +17,7 @@ def validate_inputs(initial_page_entry, final_page_entry, export_button, total_p
     except ValueError:
         export_button.configure(state="disabled")
 
-def select_pdf_file(output_title_entry, initial_page_entry, final_page_entry, export_button):
+def select_pdf_file(output_title_entry, initial_page_entry, final_page_entry, export_button, pages_label, file_name_label):
     global current_file_path, total_pages
     file_path = filedialog.askopenfilename(
         title="Select a PDF File",
@@ -34,11 +34,16 @@ def select_pdf_file(output_title_entry, initial_page_entry, final_page_entry, ex
         pdf_reader = PdfReader(file_path)
         total_pages = len(pdf_reader.pages)
 
+        # Update the pages and file name labels
+        pages_label.configure(text=f"Total Pages: {total_pages}")
+        file_name_label.configure(text=f"File: {file_name}")
+
         # Bind validation to input events
         initial_page_entry.bind("<KeyRelease>", lambda e: validate_inputs(initial_page_entry, final_page_entry, export_button, total_pages))
         final_page_entry.bind("<KeyRelease>", lambda e: validate_inputs(initial_page_entry, final_page_entry, export_button, total_pages))
     else:
         print("No file selected.")
+        file_name_label.configure(text="File: No PDF loaded")
 
 def export_pdf(output_title_entry, initial_page_entry, final_page_entry):
     initial_page = int(initial_page_entry.get()) - 1  # Convert to zero-based index
@@ -69,7 +74,7 @@ def create_gui():
     # Create a frame to centralize the content with inner padding
     frame = ctk.CTkFrame(master=root, corner_radius=10)
     frame.grid(row=0, column=0, sticky="")
-    frame.grid_rowconfigure((0, 1, 2, 3, 4, 5, 6, 7), weight=1)
+    frame.grid_rowconfigure((0, 1, 2, 3, 4, 5, 6, 7, 8, 9), weight=1)
     frame.grid_columnconfigure(0, weight=1)
 
     # Add widgets with inner padding inside the frame
@@ -78,23 +83,29 @@ def create_gui():
     select_button = ctk.CTkButton(
         master=frame, 
         text="Select PDF File",
-        command=lambda: select_pdf_file(output_title_entry, initial_page_entry, final_page_entry, export_button)
+        command=lambda: select_pdf_file(output_title_entry, initial_page_entry, final_page_entry, export_button, pages_label, file_name_label)
     )
     select_button.grid(row=0, column=0, pady=10, padx=20)
 
+    file_name_label = ctk.CTkLabel(frame, text="File: No PDF loaded")
+    file_name_label.grid(row=1, column=0, pady=5, padx=20)
+
+    pages_label = ctk.CTkLabel(frame, text="Total Pages: 0")
+    pages_label.grid(row=2, column=0, pady=5, padx=20)
+
     initial_page_label = ctk.CTkLabel(frame, text="Initial Page:")
-    initial_page_label.grid(row=1, column=0, pady=5, padx=20)
+    initial_page_label.grid(row=3, column=0, pady=5, padx=20)
     initial_page_entry = ctk.CTkEntry(frame)
-    initial_page_entry.grid(row=2, column=0, pady=5, padx=20)
+    initial_page_entry.grid(row=4, column=0, pady=5, padx=20)
 
     final_page_label = ctk.CTkLabel(frame, text="Final Page:")
-    final_page_label.grid(row=3, column=0, pady=5, padx=20)
+    final_page_label.grid(row=5, column=0, pady=5, padx=20)
     final_page_entry = ctk.CTkEntry(frame)
-    final_page_entry.grid(row=4, column=0, pady=5, padx=20)
+    final_page_entry.grid(row=6, column=0, pady=5, padx=20)
 
     output_title_label = ctk.CTkLabel(frame, text="Output File Title:")
-    output_title_label.grid(row=5, column=0, pady=5, padx=20)
-    output_title_entry.grid(row=6, column=0, pady=5, padx=20)
+    output_title_label.grid(row=7, column=0, pady=5, padx=20)
+    output_title_entry.grid(row=8, column=0, pady=5, padx=20)
 
     export_button = ctk.CTkButton(
         master=frame, 
@@ -102,7 +113,7 @@ def create_gui():
         state="disabled",
         command=lambda: export_pdf(output_title_entry, initial_page_entry, final_page_entry)
     )
-    export_button.grid(row=7, column=0, pady=10, padx=20)
+    export_button.grid(row=9, column=0, pady=10, padx=20)
 
     # Center frame within the window
     root.grid_rowconfigure(0, weight=1)
