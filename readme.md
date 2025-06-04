@@ -1,52 +1,46 @@
 # PDF Slicer
 
-PDF Slicer is a Python project designed to help you split and manage your PDF files with ease.
+PDF Slicer is a small utility for extracting page ranges from PDF files. It ships with a simple graphical interface built with `customtkinter` but the slicing logic can also be imported and used programmatically.
 
 ## Features
 
-- Extract specific pages from a PDF
+- Select a PDF and export a range of pages
+- Lightweight GUI
+- Reusable `slice_pdf` function for scripting
 
 ## Requirements
 
 - Python 3.x
-- PyPDF2 library
-- customtkinter library
+- PyPDF2
+- customtkinter
+- reportlab (only required for tests)
 
 ## Installation
 
-1. Clone the repository:
-    ```sh
-    https://github.com/henrique-trevisan/PDF_Slicer
-    ```
-2. Navigate to the project directory:
-    ```sh
-    cd PDF_Slicer
-    ```
-3. Install the required dependencies:
-    ```sh
-    pip install -r requirements.txt
-    ```
+```sh
+pip install -r requirements.txt
+```
 
 ## Usage
 
-1. Open the GUI
-2. Select the PDF file you want to slice
-3. Select the initial and final page
-4. Rename if necessary
-5. Click "Export File"
+Run the application:
 
-## Contributing
+```sh
+python main.py
+```
 
-Contributions are welcome! Please fork the repository and submit a pull request.
+From the GUI select the source PDF, choose the initial and final page and click **Export File**.
+
+## Project Structure
+
+```
+src/pdf_slicer/   # package modules
+main.py           # application entry point
+requirements.txt
+```
+
+The package exposes a `slice_pdf` function which can be imported from `pdf_slicer`.
 
 ## License
 
-This project is licensed under the MIT License.
-
-## Contact
-
-For any questions or suggestions, please open an issue or contact trehen30@gmail.com.
-
-## Acknowledgments
-
-This script was created with the assistance of ChatGPT, so it is not definitive and should not be considered as ideal.
+MIT

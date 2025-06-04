@@ -1,0 +1,21 @@
+[project]
+name = "pdf-slicer"
+version = "0.1.0"
+description = "Simple PDF page extractor"
+authors = [{name="Unknown"}]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "PyPDF2",
+    "customtkinter",
+    "reportlab",
+    "Pillow",
+    "pycryptodome",
+]
+
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.package-dir]
+"" = "src"
