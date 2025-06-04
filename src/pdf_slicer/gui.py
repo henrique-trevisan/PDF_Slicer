@@ -26,7 +26,7 @@ class PdfSlicerApp:
     def _build_widgets(self) -> None:
         frame = ctk.CTkFrame(master=self.root, corner_radius=10)
         frame.grid(row=0, column=0, sticky="nsew")
-        frame.grid_rowconfigure(tuple(range(10)), weight=1)
+        frame.grid_rowconfigure(tuple(range(11)), weight=1)
         frame.grid_columnconfigure(0, weight=1)
 
         self.output_title_entry = ctk.CTkEntry(frame, justify="center")
@@ -59,13 +59,16 @@ class PdfSlicerApp:
         self.output_title_entry.grid(row=8, column=0, pady=5, padx=20, sticky="ew")
         frame.grid_columnconfigure(0, weight=1)
 
+        self.status_label = ctk.CTkLabel(frame, text="")
+        self.status_label.grid(row=9, column=0, pady=5, padx=20)
+
         self.export_button = ctk.CTkButton(
             master=frame,
             text="Export File",
             state="disabled",
             command=self.export_pdf,
         )
-        self.export_button.grid(row=9, column=0, pady=10, padx=20)
+        self.export_button.grid(row=10, column=0, pady=10, padx=20)
 
         self.root.grid_rowconfigure(0, weight=1)
         self.root.grid_columnconfigure(0, weight=1)
@@ -128,7 +131,20 @@ class PdfSlicerApp:
         output_dir = os.path.dirname(self.current_file_path)
         output_path = os.path.join(output_dir, output_file_name)
 
-        slice_pdf(self.current_file_path, initial_page, final_page, output_path)
+        try:
+            slice_pdf(
+                self.current_file_path,
+                initial_page,
+                final_page,
+                output_path,
+            )
+        except Exception as exc:  # pragma: no cover - GUI feedback only
+            self.status_label.configure(text=f"Error: {exc}", text_color="red")
+        else:
+            self.status_label.configure(
+                text=f"Saved to {output_file_name}", text_color="green"
+            )
+            self.root.after(3000, lambda: self.status_label.configure(text=""))
 
     # ------------------------------------------------------------------
     def run(self) -> None:
