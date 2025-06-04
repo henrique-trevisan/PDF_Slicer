@@ -29,6 +29,8 @@ Run the application:
 python main.py
 ```
 
+`main.py` can be run directly without installing the package.
+
 From the GUI select the source PDF, choose the initial and final page and click **Export File**.
 
 ## Project Structure
