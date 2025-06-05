@@ -16,7 +16,7 @@ class PdfSlicerApp:
 
         self.root = ctk.CTk()
         self.root.title("PDF Exporter")
-        self.root.geometry("300x400")
+        self.root.geometry("600x400")
         self.root.grid_rowconfigure(0, weight=1)
         self.root.grid_columnconfigure(0, weight=1)
 
@@ -142,7 +142,7 @@ class PdfSlicerApp:
             self.status_label.configure(text=f"Error: {exc}", text_color="red")
         else:
             self.status_label.configure(
-                text=f"Saved to {output_file_name}", text_color="green"
+                text=f"File saved!", text_color="green"
             )
             self.root.after(3000, lambda: self.status_label.configure(text=""))
 
